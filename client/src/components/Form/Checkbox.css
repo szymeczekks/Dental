@@ -1,0 +1,29 @@
+.checkbox input {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    position: absolute;
+}
+
+.checkbox label {
+    padding-left: 25px;
+    width: 100%;
+}
+
+.checkbox .checkmark i{
+    display: none;
+}
+
+.checkbox .checkmark.checked i {
+    display: block;
+}
+
+.checkbox .checkmark {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #cacaca;
+    border-radius: 3px;
+}

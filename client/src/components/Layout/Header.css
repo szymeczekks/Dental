@@ -1,0 +1,11 @@
+.header h2 {
+    margin-bottom: 10px;
+}
+.header p {
+    margin-bottom: 15px;
+}
+
+.header {
+    border-bottom: 1px solid #d4d4d4;
+    margin-bottom: 15px;
+}

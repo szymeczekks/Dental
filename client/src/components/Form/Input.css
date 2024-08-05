@@ -1,0 +1,34 @@
+.select p {
+    cursor: pointer;
+}
+
+input {
+    width: 100%;
+}
+
+.select_wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 1s;
+    top: calc(100% - 10px);
+    background-color: #fff;
+    left: 0;
+    padding: 0 10px;
+    border-radius: 0 0 10px 10px;
+    transition: grid-template-rows .3s ease-in-out, padding .3s ease-in-out;
+}
+
+.select_wrapper.expanded {
+    grid-template-rows: 1fr;
+    padding: 10px 10px;
+}
+
+.select_height {
+    min-height: 0;
+    overflow: hidden;
+    max-height: 190px;
+}
+
+.select_wrapper.expanded .select_height {
+    overflow-y: auto;
+}

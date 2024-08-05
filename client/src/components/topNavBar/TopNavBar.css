@@ -1,0 +1,84 @@
+.topNavBar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.topNavBar .fa-angle-down {
+    transition: transform .3s ease-in-out;
+}
+
+.topNavBar .user-list {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 1s;
+    top: calc(100% + 20px);
+    right: -10px;
+    width: max-content;
+    background: #fbfbfb;
+    padding: 0px 5px;
+    border-radius: 8px;
+    transition: grid-template-rows .3s ease-in-out, padding .3s ease-in-out;
+}
+
+.topNavBar .user-list ul{
+    min-height: 0;
+    overflow: hidden;
+}
+
+.topNavBar .user-list li{
+    padding: 5px;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.topNavBar .user-list a{
+    z-index: 1;
+}
+
+.topNavBar .user-list li:last-child *{
+    z-index: 1;
+}
+
+.hover-slide::after{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 100%;
+    width: 100%;
+    height: 100%;
+    background-color: #ebebeb;
+    transition: right .3s ease-in-out .15s;
+}
+
+.hover-slide::before{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 100%;
+    width: 100%;
+    height: 1px;
+    background-color: #000;
+    z-index: 1;
+    transition: right .3s ease-in-out;
+}
+
+.hover-slide:hover::after{
+    right: 0%;
+}
+
+.hover-slide:hover::before{
+    right: 0%;
+}
+
+.topNavBar .user-list i{
+    min-width: 19px;
+}
+
+.topNavBar .show_list .user-list {
+    grid-template-rows: 1fr;
+    padding: 5px 5px;
+}
+
+.topNavBar .show_list .fa-angle-down {
+    transform: rotate(180deg);
+}

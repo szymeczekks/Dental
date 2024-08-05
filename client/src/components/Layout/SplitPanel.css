@@ -1,0 +1,7 @@
+.split-panel .left-side {
+    width: clamp(200px, 25%, 300px);
+}
+
+.split-panel .right-side {
+    width: 75%;
+}

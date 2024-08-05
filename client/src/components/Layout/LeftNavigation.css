@@ -1,0 +1,9 @@
+.left-navigation li * {
+    z-index: 1;
+}
+
+.left-navigation li {
+    margin: 5px 0;
+    overflow: hidden;
+    border-radius: 5px;
+}

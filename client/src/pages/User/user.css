@@ -1,0 +1,29 @@
+.user__content-subTitle {
+    margin-bottom: 20px;
+}
+
+.user__email {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user__name-wrapper {
+    overflow: hidden;
+}
+
+.user__content-inputChange {
+    bottom: 0;
+    right: 10px;
+    bottom: 15px;
+    color: #000000;
+}
+
+.right_width input {
+    width: 100%;
+}
+
+.disable {
+    pointer-events: none;
+    color: #cacaca;
+}
