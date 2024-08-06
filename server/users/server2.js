@@ -120,6 +120,15 @@ app.get('/get-service/:sid', async (req,res) => {
     }
 })
 
+app.get('/get-employee/:eid', async (req,res) => {
+    try {
+        const employee = await getEmployee(req.params.eid);
+        res.status(201).send(employee);
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
+})
+
 app.get('/delete-employee/:eid', async (req,res) => {
     try {
         const employee = await deleteEmployeeById(req.params.eid);

@@ -5,6 +5,8 @@ import { AuthProvider } from './Context/Auth';
 import Home from './pages/Home/home';
 import User from './pages/User/user';
 import Panel from './pages/Panel/Panel';
+import {Cabinet} from './pages/Cabinet/Cabinet';
+import {Book} from './pages/Cabinet/Book';
 import {Account} from './pages/Account';
 import {Notifications} from './pages/Notifications';
 import {Visits} from './pages/Visits';
@@ -61,6 +63,9 @@ function App() {
                 <Route path="visits" element={<Visits/>} />
               </Route>
               <Route path="/add-cabinet" element={<AddCabinet />}></Route>
+              <Route path="/cabinet/:cabinetId" element={<Cabinet/>}>
+              </Route>
+              <Route path="/cabinet/:cabinetId/book" element={<Book/>}/>
             </Routes>
             <CabinetProvider>
               <Routes>

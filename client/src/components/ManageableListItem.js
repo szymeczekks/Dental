@@ -6,15 +6,12 @@ export function ManageableListItem({item, path, delete_function, missing_items =
     const { header, subheader, id } = item;
 
     useEffect(() => {
-        console.log(missing_items.length);
         if ( missing_items.length === 0 ) return; 
         const missing_arr = [];
         for (const key in missing_items) {
             const element = missing_items[key];
-            console.log(element);
             if (!element) missing_arr.push(key);
         }
-        console.log(missing_arr);
         if (missing_arr.length !== 0) setMissing(missing_arr);
     }, []);
 

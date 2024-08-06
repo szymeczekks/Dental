@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export function CabinetListItem({item}) {
     return (
         <div className="d-f m-b-10 gap-s comp_border p-10">
@@ -7,8 +9,8 @@ export function CabinetListItem({item}) {
                 <div className="d-f gap-s"><i className="fa-solid fa-location-dot"></i><p>{item.street} {item.address}, {item.city}</p></div>
             </div>
             <div className="d-f fd-c gap-s jc-e">
-                <button>Zajrzyj do nas</button>
-                <button>Umów się na wizytę</button>
+                <button><Link to={`/cabinet/${item.id}`}>Zajrzyj do nas</Link></button>
+                <button><Link to={`/cabinet/${item.id}/book`}>Umów się na wizytę</Link></button>
             </div>
         </div>
     )
