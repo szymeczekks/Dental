@@ -1,5 +1,8 @@
 .split-panel .left-side {
     width: clamp(200px, 25%, 300px);
+    position: sticky;
+    top: 10px;
+    height: fit-content;
 }
 
 .split-panel .right-side {

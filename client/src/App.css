@@ -1,7 +1,7 @@
 .App {
   text-align: left;
   background-color: #e6e6e6;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -28,6 +28,15 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.cabinet_image {
+  width: 30%;
+  max-width: 300px;
+  border-radius: 6px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(45deg, #717171, transparent);
 }
 
 .formWrapper {
@@ -365,6 +374,10 @@ li {
 
 .m-b-10 {
   margin-bottom: 10px;
+}
+
+.p-x-10 {
+  padding: 10px 0;
 }
 
 .p-t-15 {
