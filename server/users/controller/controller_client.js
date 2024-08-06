@@ -1,4 +1,4 @@
-const { getServices, saveCabinet, getCabinet, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById } = require("../model/model_client");
+const { getServices, saveCabinet, getCabinet, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull } = require("../model/model_client");
 
 
 
@@ -146,6 +146,15 @@ async function updateService (data) {
     }
 }
 
+async function getCabinets() {
+    try {
+        const cabinets = await getCabinetsFull();
+        return cabinets;
+    } catch (err) {
+        throw err;
+    }
+}
+
 
 module.exports = {
     getAllServices,
@@ -163,5 +172,6 @@ module.exports = {
     getCabinetServices,
     deleteServiceById,
     getServiceFullById,
-    updateService
+    updateService,
+    getCabinets
 }

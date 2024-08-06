@@ -286,6 +286,18 @@ async function updateServiceById(dataToUpdate) {
     });
 }
 
+async function getCabinetsFull() {
+    const connection = await getConnection();
+    return new Promise ( async (resolve, reject) => {
+        const sql = `SELECT id, name, city, street, address FROM cabinets`;
+        const [data] = await connection.execute(sql);
+
+        if (data.length > 0) return resolve(data);
+        return reject('Błąd pobierania gabinetów');
+    });
+    
+}
+
 module.exports = {
     getServices,
     saveCabinet,
@@ -303,6 +315,7 @@ module.exports = {
     deleteService,
     getService,
     getServiceById,
-    updateServiceById
+    updateServiceById,
+    getCabinetsFull
 }
 
