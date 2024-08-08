@@ -11,6 +11,7 @@ input {
     grid-template-rows: 0fr;
     transition: grid-template-rows 1s;
     top: calc(100% - 10px);
+    width: 100%;
     background-color: #fff;
     left: 0;
     padding: 0 10px;

@@ -2,15 +2,26 @@ import { SplitPanel } from '../../components/Layout/SplitPanel';
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import { CabinetListItem } from '../../components/Main/CabinetListItem';
+import { Filters } from '../../components/Main/Filters';
 
 function Home() {
     const [ cabinets, setCabinets ] = useState(null);
+    const [ filters, setFilters ] = useState([]); 
 
-    const Left = () => <>Filters</>;
+    console.log(1);
+
+    const setters = {
+        cabinets: {
+            get: cabinets,
+            set: setFilters
+        }
+    }
+
+    const Left = () => <Filters setters={setters} />;
     const Right = () => <>
-    {cabinets ? 
-    cabinets.map(cabinet => {
-        return <CabinetListItem key={cabinet.id} item={cabinet}/> 
+    {filters ? 
+    filters.map(filter => {
+        return <CabinetListItem key={filter.id} item={filter}/> 
     })
     : 'Loading...'}
     </>;
@@ -20,6 +31,7 @@ function Home() {
         axios.get('/get-cabinets')
         .then( response => {
             setCabinets(response.data);
+            setFilters(response.data);
         })
         .catch( err => {
             console.log(err.response.data);
