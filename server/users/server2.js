@@ -2,7 +2,7 @@ const express = require('express');
 const multer  = require('multer');
 const upload = require('./middlewares/MulterMiddleware');
 const {login, registerUser, getUserById, updateUserById} = require('./controller/controller')
-const { getAllServices, saveCabinetOne, getCabinetById, updateCabinetById, saveEmployee, addFile, getEmployees, getEmployee, updateEmployeeById, deleteEmployeeById, getServicesAvailable, addServices, getCabinetServices, deleteServiceById, getServiceFullById, updateService, getCabinets } = require('./controller/controller_client')
+const { getAllServices, saveCabinetOne, getUsersCabinet, getCabinet, updateCabinetById, saveEmployee, addFile, getEmployees, getEmployee, updateEmployeeById, deleteEmployeeById, getServicesAvailable, addServices, getCabinetServices, deleteServiceById, getServiceFullById, updateService, getCabinets } = require('./controller/controller_client')
 const {verifyJWT} = require('./middlewares/middleware');
 const app = express();
 
@@ -93,8 +93,17 @@ app.get('/get-cabinet-services/:cid', async ( req, res ) => {
     }
 })
 
-app.get('/get-cabinet/:uid', async (req,res) => {
-    const cabinet = await getCabinetById(req.params.uid);
+app.get('/get-users-cabinet/:uid', async (req,res) => {
+    const cabinet = await getUsersCabinet(req.params.uid);
+    if (cabinet.message) {
+        res.status(500).send(cabinet.message);
+    } else {
+        res.status(201).send(cabinet);
+    }
+})
+
+app.get('/get-cabinet/:cid', async (req,res) => {
+    const cabinet = await getCabinet(req.params.cid);
     if (cabinet.message) {
         res.status(500).send(cabinet.message);
     } else {

@@ -13,7 +13,7 @@ function Panel() {
     const { cabinet, setCabinet } = useContext(CabinetContext);
 
     useEffect(() => {
-        axios.get(`/get-cabinet/${userInfo.id}`)
+        axios.get(`/get-users-cabinet/${userInfo.id}`)
             .then(response => {
                 if (JSON.stringify(response.data) !== JSON.stringify(cabinet)) {
                     setCabinet(response.data);

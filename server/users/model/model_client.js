@@ -133,11 +133,26 @@ async function getServices() {
     });
 }
 
-async function getCabinet(id) {
+async function getCabinetByUserID(id) {
     const connection = await getConnection();
 
     return new Promise( async (resolve, reject) => {
         const sql = 'SELECT * FROM cabinets WHERE user_id = ?;';
+        const [data] = await connection.execute(sql, [id]);
+
+        if (data.length === 0) {
+            reject({message:`Nie znaleziono gabinetu. Wskazane id: ${id}`});
+        } else {
+            resolve(...data);
+        }
+    });
+}
+
+async function getCabinetByID(id) {
+    const connection = await getConnection();
+
+    return new Promise( async (resolve, reject) => {
+        const sql = 'SELECT * FROM cabinets WHERE id = ?;';
         const [data] = await connection.execute(sql, [id]);
 
         if (data.length === 0) {
@@ -301,7 +316,8 @@ async function getCabinetsFull() {
 module.exports = {
     getServices,
     saveCabinet,
-    getCabinet,
+    getCabinetByUserID,
+    getCabinetByID,
     getServicesByCabinetId,
     updateCabinet,
     addEmployee,

@@ -1,4 +1,4 @@
-const { getServices, saveCabinet, getCabinet, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull } = require("../model/model_client");
+const { getServices, saveCabinet, getCabinetByUserID, getCabinetByID, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull } = require("../model/model_client");
 
 
 
@@ -32,10 +32,20 @@ async function getAllServices() {
     }
 }
 
-async function getCabinetById(id) {
+async function getUsersCabinet(id) {
     try{ 
-        const cabinet = await getCabinet(id);
+        const cabinet = await getCabinetByUserID(id);
         const cabinetServices = await getServicesByCabinetId(cabinet.id);
+        return{...cabinet, services: cabinetServices};
+    }catch(err){
+        return {message:err.message};
+    }
+}
+
+async function getCabinet(id) {
+    try{ 
+        const cabinet = await getCabinetByID(id);
+        const cabinetServices = await getServicesByCabinetId(id);
         return{...cabinet, services: cabinetServices};
     }catch(err){
         return {message:err.message};
@@ -45,7 +55,7 @@ async function getCabinetById(id) {
 async function updateCabinetById(data) {
     try{ 
         const cabinet = await updateCabinet(data);
-        const updatedInfo = await getCabinetById(data.id);
+        const updatedInfo = await getUsersCabinet(data.id);
         return{isUpdated: true, message: cabinet.message, data: updatedInfo};
     }catch(err){
         return {message: err.message};
@@ -159,8 +169,9 @@ async function getCabinets() {
 module.exports = {
     getAllServices,
     saveCabinetOne,
-    getCabinetById,
+    getUsersCabinet,
     updateCabinetById,
+    getCabinet,
     saveEmployee,
     addFile,
     getEmployees,
