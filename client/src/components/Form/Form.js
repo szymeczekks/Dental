@@ -16,18 +16,18 @@ export function Form({values, children, path, objID, update}) {
 
     async function onSubmit(data) {
         console.log(data);
-        try {
-            const response = await postRequest(path, data, objID);
-            notify(response.message);
-            console.log(response);
-            update(response.data);
-            clearErrors("general");
-            console.log(response.message);
+        // try {
+        //     const response = await postRequest(path, data, objID);
+        //     notify(response.message);
+        //     console.log(response);
+        //     update(response.data);
+        //     clearErrors("general");
+        //     console.log(response.message);
 
-        } catch (err) {
-            console.log(err);
-            setError("general", {message:err.data.message} );
-        }
+        // } catch (err) {
+        //     console.log(err);
+        //     setError("general", {message:err.data.message} );
+        // }
     }
 
     return (

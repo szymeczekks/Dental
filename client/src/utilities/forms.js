@@ -238,7 +238,12 @@ export const formAddEmployee = [
             type: "text",
             label: "Nr budynku / mieszkania"
         }
-    ]
+    ],
+    {
+        id: "working_hours",
+        type: "hours",
+        label: "Godziny pracy"
+    }
 ]
 
 export const formUpdateService = [

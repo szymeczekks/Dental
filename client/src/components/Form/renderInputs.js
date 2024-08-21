@@ -3,6 +3,7 @@ import { SelectMultiple } from "./SelectMultiple";
 import { Checkbox } from "./Checkbox";
 import { Toggle } from "./Toggle";
 import { Select } from "./Select";
+import { WorkingHours } from "./WorkingHours";
 
 const inputMap = {
     'select-multiple': SelectMultiple,
@@ -12,7 +13,8 @@ const inputMap = {
     'text': Input,
     'email': Input,
     'password': Input,
-    'number': Input
+    'number': Input,
+    'hours': WorkingHours
 }
 
 function RenderInput({input, errors, register, values}) {

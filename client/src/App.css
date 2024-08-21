@@ -129,6 +129,19 @@ button a {
   bottom: unset;
 }
 
+.hours .checkbox {
+  gap: 10px;
+}
+
+.hours input[type="time"] {
+  max-width: 120px;
+}
+
+.hours .checkbox label {
+  min-width: 180px;
+  padding-left: 0;
+}
+
 .successInfo {
   color: rgb(58, 211, 44);
   font-weight: 500;
