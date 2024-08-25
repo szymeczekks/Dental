@@ -42,7 +42,7 @@ export function EditEmployee() {
                 {
                     employees ? 
                     employees.map(employee => {
-                        return <ManageableListItem key={employee.id} item={{ header: employee.name, subheader: employee.position }}>
+                        return <ManageableListItem key={employee.id} item={{ header: employee.name }}>
                             <button><Link to={`/panel/edit-employee/${employee.id}`}>Edytuj</Link></button>
                             <button onClick={() => handleDelete(employee)}>Usuń</button>
                         </ManageableListItem>

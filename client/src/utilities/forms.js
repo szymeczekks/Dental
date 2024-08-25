@@ -252,13 +252,28 @@ export const formUpdateService = [
             id: "price",
             placeholder: "100.00",
             type: "number",
-            label: "Cena"
+            label: "Cena",
+            config: {
+                required: "Podaj cenę usługi"
+            }
         },
         {
-            id: "description",
-            placeholder: "Opis usługi",
-            type: "text",
-            label: "Opis"
+            id: "duration",
+            placeholder: "45",
+            type: "number",
+            label: "Czas trwania (w minutach)",
+            config: {
+                required: "Podaj czas trwania usługi"
+            }
         }
-    ]
+    ],
+    {
+        id: "description",
+        placeholder: "Opis usługi",
+        type: "text",
+        label: "Opis",
+        config: {
+            required: "Podaj opis usługi"
+        }
+    }
 ]

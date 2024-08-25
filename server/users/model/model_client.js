@@ -18,12 +18,12 @@ async function saveServices(services, cabinet_id) {
     const connection = await getConnection();
     return new Promise ( async (resolve, reject) => {
         for (const service_object of services) {
-            const { service, price = '', description = '' } = service_object;
+            const { service, price = '', description = '', duration } = service_object;
             const service_id = 'SELECT id FROM base_services WHERE name = ?';
             const [id] = await connection.execute( service_id, [service]);
             if (id.length !== 0) {
-                const sql = 'INSERT INTO services (id_cabinet, id_base_service, price, description) VALUES (?, ?, ?, ?);';
-                await connection.execute( sql, [cabinet_id, id[0].id, price, description] );
+                const sql = 'INSERT INTO services (id_cabinet, id_base_service, price, description, duration) VALUES (?, ?, ?, ?, ?);';
+                await connection.execute( sql, [cabinet_id, id[0].id, price, description, duration] );
             }
         };
         resolve({ message: 'Dodano usługę' });

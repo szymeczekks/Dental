@@ -18,8 +18,22 @@ export function AddServices() {
                 id: "service",
                 type: "select",
                 name: "Nazwa usługi",
-                options: services
+                options: services,
+                config: {
+                    required: "Podaj nazwę usługi"
+                }
             },
+            {
+                id: "description",
+                placeholder: "Opis usługi",
+                type: "text",
+                label: "Opis",
+                config: {
+                    required: "Podaj opis usługi"
+                }
+            }
+        ],
+        [
             {
                 id: "price",
                 placeholder: "100.00",
@@ -29,13 +43,17 @@ export function AddServices() {
                     required: "Podaj cenę usługi"
                 }
             },
-        ],
-        {
-            id: "description",
-            placeholder: "Opis usługi",
-            type: "text",
-            label: "Opis"
-        }
+            {
+                id: "duration",
+                placeholder: "45",
+                type: "number",
+                label: "Czas trwania (w minutach)",
+                config: {
+                    required: "Podaj czas trwania usługi"
+                }
+            }
+
+        ]
     ]
 
     useEffect(() => {

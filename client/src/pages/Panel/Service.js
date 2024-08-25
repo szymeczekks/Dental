@@ -30,7 +30,7 @@ export function Service() {
     
     return service? (
         <HeaderPanel header={header} subheader={subheader}>
-            <Form values={{price: service.price, description: service.description}} path="/update-service" objID={serviceId} update={updateInfo} >
+            <Form values={{price: service.price, description: service.description, duration: service.duration}} path="/update-service" objID={serviceId} update={updateInfo} >
                 <RenderInputs inputs={formUpdateService}/>
             </Form>
         </HeaderPanel>
