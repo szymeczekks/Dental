@@ -1,4 +1,4 @@
-const { getServices, saveCabinet, getCabinetByUserID, getCabinetByID, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull } = require("../model/model_client");
+const { getServices, saveCabinet, getCabinetByUserID, getCabinetByID, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull, addWorkingDay, updateWorkingDay, getWorkingDays } = require("../model/model_client");
 
 
 
@@ -71,9 +71,45 @@ async function updateCabinetById(data) {
 //     }
 // }
 
+async function insert_hours(hours, employee_id) {
+    for (const key in hours) {
+        const element = hours[key];
+        try {
+            await addWorkingDay({
+                day: Number(key),
+                is_exception: !Number.isInteger(Number(key)),
+                hours: `${element.from}-${element.to}`,
+                status: element.status ? 1 : 0,
+                employee_id: employee_id
+            });
+        } catch(err) {
+            console.error(err);
+        }
+    }
+}
+
+async function update_hours(hours, employee_id) {
+    for (const key in hours) {
+        const element = hours[key];
+        try {
+            await updateWorkingDay({
+                day: Number(key),
+                is_exception: !Number.isInteger(Number(key)),
+                hours: `${element.from}-${element.to}`,
+                status: element.status ? 1 : 0,
+                employee_id: employee_id
+            });
+        } catch(err) {
+            console.error(err);
+        }
+    }
+}
+
 async function saveEmployee(data) {
     try { 
-        const saved = await addEmployee(data);
+        const { hours, ...rest } = data;
+        const saved = await addEmployee(rest);
+        await insert_hours(hours, saved.data.id);
         return {saved: true, ...saved};
     } catch(err) {
         return {saved: false, message:err.message};
@@ -89,10 +125,36 @@ async function addFile(file) {
     }
 }
 
+async function getEmployeeById(id) {
+    try {
+        const employee = await getEmployee(id);
+        let days = await getWorkingDays(id);
+        for (const key in days) {
+            const day = days[key];
+            let { hours, ...rest } = day;
+            hours = hours.split('-');
+            hours = {
+                from: hours[0],
+                to: hours[1]
+            }
+            days[key] = {
+                ...hours,
+                ...rest
+            }
+        }
+        employee.hours = days;
+        return employee;
+    } catch(err) {
+        return {message: err.message};
+    }
+}
+
 async function updateEmployeeById(data) {
     try {
-        const updated = await updateEmployee(data);
-        const updatedInfo = await getEmployee(data.id);
+        const { hours, ...rest } = data;
+        const updated = await updateEmployee(rest);
+        await update_hours(hours, data.id);
+        const updatedInfo = await getEmployeeById(rest.id);
         return {isUpdated: true, message: updated.message, data: updatedInfo};
     } catch(err) {
         return {message: err.message};
@@ -175,7 +237,7 @@ module.exports = {
     saveEmployee,
     addFile,
     getEmployees,
-    getEmployee,
+    getEmployeeById,
     updateEmployeeById,
     deleteEmployeeById,
     getServicesAvailable,

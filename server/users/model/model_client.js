@@ -313,6 +313,47 @@ async function getCabinetsFull() {
     
 }
 
+async function addWorkingDay({day, is_exception, hours, status, employee_id}) {
+    const connection = await getConnection();
+    return new Promise ( async (resolve, reject) => {
+        const day_column = is_exception ? 'day_exception' : 'day';
+        const sql = `INSERT INTO employees_working_hours (${day_column}, hours, status, employee_id) VALUES ( ?, ?, ?, ? );`;
+        const [data] = await connection.execute(sql, [day, hours, status, employee_id]);
+
+        if (data.insertId) {
+            resolve({message:'Dodano prawidłowo godziny', data: {id: data.insertId}});
+        }
+        return reject('Błąd podczas dodawania godzin');
+    });
+}
+
+async function updateWorkingDay({employee_id, hours, status, is_exception, day}) {
+    const connection = await getConnection();
+    return new Promise ( async (resolve, reject) => {
+        const day_column = is_exception ? 'day_exception' : 'day';
+        const sql = `UPDATE employees_working_hours SET hours = ?, status = ? WHERE employee_id = ? AND ${day_column} = ?;`;
+        const [data] = await connection.execute(sql, [hours, status, employee_id, day]);
+
+        if (data.affectedRows !== 0) {
+            resolve('Zaktualizowano pomyślnie');
+        }
+        return reject('Błąd podczas aktualizacji godzin');
+    });
+}
+
+async function getWorkingDays(employee_id) {
+    const connection = await getConnection();
+    return new Promise ( async (resolve, reject) => {
+        const sql = `SELECT day, hours, status FROM employees_working_hours WHERE employee_id = ?;`;
+        const [data] = await connection.execute(sql, [employee_id]);
+
+        if (data.length > 0) {
+            resolve(data);
+        }
+        return reject('Błąd podczas pobierania godzin');
+    });
+}
+
 module.exports = {
     getServices,
     saveCabinet,
@@ -332,6 +373,9 @@ module.exports = {
     getService,
     getServiceById,
     updateServiceById,
-    getCabinetsFull
+    getCabinetsFull,
+    addWorkingDay,
+    updateWorkingDay,
+    getWorkingDays
 }
 

@@ -2,7 +2,7 @@ const express = require('express');
 const multer  = require('multer');
 const upload = require('./middlewares/MulterMiddleware');
 const {login, registerUser, getUserById, updateUserById} = require('./controller/controller')
-const { getAllServices, saveCabinetOne, getUsersCabinet, getCabinet, updateCabinetById, saveEmployee, addFile, getEmployees, getEmployee, updateEmployeeById, deleteEmployeeById, getServicesAvailable, addServices, getCabinetServices, deleteServiceById, getServiceFullById, updateService, getCabinets } = require('./controller/controller_client')
+const { getAllServices, saveCabinetOne, getUsersCabinet, getCabinet, updateCabinetById, saveEmployee, addFile, getEmployees, getEmployeeById, updateEmployeeById, deleteEmployeeById, getServicesAvailable, addServices, getCabinetServices, deleteServiceById, getServiceFullById, updateService, getCabinets } = require('./controller/controller_client')
 const {verifyJWT} = require('./middlewares/middleware');
 const app = express();
 
@@ -131,7 +131,7 @@ app.get('/get-service/:sid', async (req,res) => {
 
 app.get('/get-employee/:eid', async (req,res) => {
     try {
-        const employee = await getEmployee(req.params.eid);
+        const employee = await getEmployeeById(req.params.eid);
         res.status(201).send(employee);
     } catch (err) {
         res.status(500).send(err.message)

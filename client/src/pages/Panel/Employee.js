@@ -15,6 +15,7 @@ export function Employee() {
     useEffect(() => {
         axios.get(`/get-employee/${employeeId}`)
         .then(response => {
+            console.log(response.data);
             setEmployee(response.data)
         })
         .catch(error => {

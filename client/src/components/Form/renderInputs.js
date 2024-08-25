@@ -17,9 +17,22 @@ const inputMap = {
     'hours': WorkingHours
 }
 
+function get_default_checked(type, data) {
+    switch (type) {
+        case 'checkbox' : 
+        case 'toggle' : 
+            return data.id;
+        case 'hours':
+            return data.hours;
+        default:
+            return false;
+    }
+}
+
 function RenderInput({input, errors, register, values}) {
     const Input = inputMap[input.type];
-    return (<Input key={input.id} errors={errors} register={register} {...((input.type==='checkbox' || input.type==='toggle') && {defaultChecked: values[input.id]})} {...input}/>);
+    const defaultChecked = values && get_default_checked(input.type, values);
+    return (<Input key={input.id} errors={errors} register={register} {...(defaultChecked && {defaultChecked: defaultChecked})} {...input}/>);
 }
 
 export function RenderInputs(props) {

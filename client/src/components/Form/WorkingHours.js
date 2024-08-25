@@ -9,8 +9,8 @@ export function WorkingHours({register, defaultChecked, id, label}) {
             <p>{label}</p>
             {days.map( (day, id) => {
                 return (
-                    <div className="d-f gap-s">
-                        <Toggle register={register} name={day} defaultChecked={0} id={`hours.${id}.status`}/>
+                    <div key={id} className="d-f gap-s">
+                        <Toggle register={register} name={day} {...(defaultChecked && {defaultChecked: defaultChecked[id].status})} id={`hours.${id}.status`}/>
                         <input type="time" {...register(`hours.${id}.from`)}></input> 
                         <input type="time" {...register(`hours.${id}.to`)}></input> 
                     </div> 
