@@ -1,7 +1,7 @@
 import axios from "axios";
 import { HeaderPanel } from "../../components/Layout/HeaderPanel";
 import { useContext, useEffect, useState } from "react";
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { CabinetContext } from '../../Context/Cabinet';
 import { ManageableListItem } from "../../components/ManageableListItem";
 import { Outlet } from "react-router-dom";
@@ -42,7 +42,10 @@ export function EditEmployee() {
                 {
                     employees ? 
                     employees.map(employee => {
-                        return <ManageableListItem key={employee.id} item={{ header: employee.name, subheader: employee.position, id: employee.id }} path='/panel/edit-employee' delete_function={() => handleDelete(employee)}/>
+                        return <ManageableListItem key={employee.id} item={{ header: employee.name, subheader: employee.position }}>
+                            <button><Link to={`/panel/edit-employee/${employee.id}`}>Edytuj</Link></button>
+                            <button onClick={() => handleDelete(employee)}>Usuń</button>
+                        </ManageableListItem>
                     }) : employees === 0 ? <>Nie znaleziono pracowników</> : <>Loading...</>
                 }
             </HeaderPanel>

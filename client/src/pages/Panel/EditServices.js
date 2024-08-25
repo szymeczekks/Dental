@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { HeaderPanel } from "../../components/Layout/HeaderPanel";
 import axios from "axios";
 import { CabinetContext } from "../../Context/Cabinet";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { ManageableListItem } from "../../components/ManageableListItem";
 
@@ -42,7 +42,10 @@ export function EditServices() {
                 {
                     services ? 
                     services.map(service => {
-                        return <ManageableListItem key={service.id} item={{ header: service.name , id: service.id }} path='/panel/edit-services' delete_function={() => handleDelete(service)} missing_items={{price: service.price}}/>
+                        return <ManageableListItem key={service.id} item={{ header: service.name }} missing_items={{price: service.price}}>
+                            <button><Link to={`/panel/edit-services/${service.id}`}>Edytuj</Link></button>
+                            <button onClick={() => handleDelete(service)}>Usuń</button>
+                        </ManageableListItem>
                     }) : services === 0 ? <>Nie znaleziono usług</> : <>Loading...</>
                 }
             </HeaderPanel>

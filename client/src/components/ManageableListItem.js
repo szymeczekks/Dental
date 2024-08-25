@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-export function ManageableListItem({item, path, delete_function, missing_items = []}) {
+export function ManageableListItem({item, missing_items = [], children}) {
     const [ missing, setMissing ] = useState(null);
-    const { header, subheader, id } = item;
+    const { header, subheader } = item;
 
     useEffect(() => {
         if ( missing_items.length === 0 ) return; 
@@ -23,8 +23,9 @@ export function ManageableListItem({item, path, delete_function, missing_items =
                 {subheader && <span>{subheader}</span>}
             </div>
             <div className="d-f gap-s">
-                <button><Link to={`${path}/${id}`}>Edytuj</Link></button>
-                <button onClick={delete_function}>Usuń</button>
+                {children}
+                {/* <button><Link to={`${path}/${id}`}>Edytuj</Link></button>
+                <button onClick={delete_function}>Usuń</button> */}
             </div>
         </div>
     )
