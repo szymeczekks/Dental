@@ -44,38 +44,6 @@ export function Form({values, children, path, objID, update}) {
                     }
                 })
             })} 
-            
-
-            {/* {inputs.map((input, i) => {
-                if (input.type === 'select-multiple') {
-                    return <SelectMultiple key={input.id} register={register} name={input.name} options={input.options[0]} id={input.id}/>
-                }
-
-                if (input.type === 'checkbox') {
-                    return <Checkbox key={input.id} register={register} id={input.id} idGeneral={input.id} name={input.name} defaultChecked={values[input.id]}/>
-                }
-
-                if (input.type === 'toggle') {
-                    return <Toggle key={input.id} register={register} idGeneral={input.id} values={input.values} name={input.name} defaultChecked={values[input.id]}/>
-                }
-
-                if (input.length > 1) {
-                    return (
-                        <div key={i} className="d-f gap-s ai-e">
-                            {input.map(inputNested => {
-                                if (inputNested.type === 'select-multiple') {
-                                    return <SelectMultiple key={inputNested.id} register={register} name={inputNested.name} options={inputNested.options[0]} id={inputNested.id}/>
-                                }
-                                return (
-                                    <Input key={inputNested.id} errors={errors} register={register} id={inputNested.id} placeholder={inputNested.placeholder} type={inputNested.type} label={inputNested.label} config={inputNested.config}/>
-                                )
-                            })}
-                        </div>
-                    )
-                } else {
-                    return <Input key={input.id} errors={errors} register={register} id={input.id} placeholder={input.placeholder} type={input.type} label={input.label} config={input.config}/>
-                }
-            })} */}
 
             <div className="formFooter p-r">
                 <button>Wyślij</button>

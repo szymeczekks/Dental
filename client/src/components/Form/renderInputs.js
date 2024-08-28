@@ -1,5 +1,6 @@
 import { Input } from "./Input";
 import { SelectMultiple } from "./SelectMultiple";
+import { SelectMultipleTags } from "./SelectMultipleTags";
 import { Checkbox } from "./Checkbox";
 import { Toggle } from "./Toggle";
 import { Select } from "./Select";
@@ -7,6 +8,7 @@ import { WorkingHours } from "./WorkingHours";
 
 const inputMap = {
     'select-multiple': SelectMultiple,
+    'select-multiple-tags': SelectMultipleTags,
     'select': Select,
     'checkbox': Checkbox,
     'toggle': Toggle,

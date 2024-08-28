@@ -8,6 +8,7 @@ import { ManageableListItem } from "../../components/ManageableListItem";
 export function Book() {
     const location = useLocation();
     const [ services, setServices ] = useState(null);
+    const [ serviceChecked, setServiceChecked ] = useState(null);
     const ref = useRef(0);
 
     useEffect(() => {
@@ -20,12 +21,10 @@ export function Book() {
         })
     }, []);
 
-    useEffect( () => {
-        console.log(ref);
-        console.log( ref.current.splide.length );
-        if ( ref.current ) {
-        }
-    } );
+    function handle_service_click(name) {
+        setServiceChecked(name);
+        ref.current.splide.go('>');
+    }
 
     console.log(location.pathname.split('/')[2]);
     return (
@@ -40,7 +39,7 @@ export function Book() {
                     services ? 
                     services.map(service => {
                         return <ManageableListItem key={service.id} item={{ header: service.name, subheader: `${service.price} zł` }}>
-                            <button onClick={() => ref.current.splide.go(1)}>Wybierz</button>
+                            <button onClick={() => handle_service_click(service.name)}>Wybierz</button>
                         </ManageableListItem>
                     }) : services === 0 ? <>Nie znaleziono usług</> : <>Loading...</>
                 }

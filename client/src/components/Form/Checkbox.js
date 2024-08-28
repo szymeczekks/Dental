@@ -14,10 +14,10 @@ export function Checkbox({register, id, name, defaultChecked, idGeneral = id}) {
     }
 
     return (
-        <div key={id} className="checkbox d-f gap-s">
+        <div key={id} className={`checkbox d-f gap-s ${checked ? 'checked' : ''}`}>
             <label className='p-r'>{name}
                 <input type="checkbox" value={name} onClick={handleCheck} {...register(idGeneral)}/>
-                <span className={`checkmark d-f jc-c ai-c ${checked ? 'checked' : ''}`}><i className="fa-solid fa-check txt-s"></i></span>
+                <span className={`checkmark d-f jc-c ai-c`}><i className="fa-solid fa-check txt-s"></i></span>
             </label>
         </div>
     )

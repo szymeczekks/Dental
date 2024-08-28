@@ -183,6 +183,54 @@ input.input:focus-visible, select:focus-visible {
   outline: 3px solid rgb(146, 146, 146);
 }
 
+.tags-container label {
+  cursor: pointer;
+  background-color: #000000;
+  color: #fff;
+  flex: 1 1 25%;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.tags-container input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+/* .select-tags .checkbox.checked {
+  display: none;
+} */
+
+.select-tags .checkbox label {
+  padding: 0;
+}
+
+.tags-container label:hover::after {
+  content: 'usuń';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 3px;
+  background-color: #ffffffec;
+  color: #000;
+  width: 100%;
+  height: 100%;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.tags-container {
+  background-color: #fff;
+}
+
 a {
   text-decoration: none;
   color: #000;
@@ -456,6 +504,14 @@ li {
 }
 
 /* flex */
+
+.fw-w {
+  flex-wrap: wrap;
+}
+
+.as-s {
+  align-self: flex-start;
+}
 
 .jc-c {
   justify-content: center;

@@ -14,7 +14,7 @@
     display: none;
 }
 
-.checkbox .checkmark.checked i {
+.checkbox.checked .checkmark i {
     display: block;
 }
 

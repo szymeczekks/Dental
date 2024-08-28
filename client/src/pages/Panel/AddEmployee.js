@@ -1,5 +1,5 @@
 import { HeaderPanel } from "../../components/Layout/HeaderPanel";
-import { formAddEmployee } from "../../utilities/forms";
+// import { formAddEmployee } from "../../utilities/forms";
 import { CabinetContext } from '../../Context/Cabinet';
 import { useContext } from "react";
 import { Form } from "../../components/Form/Form";
@@ -17,7 +17,7 @@ export function AddEmployee() {
     return (
         <HeaderPanel header={header} subheader={subheader}>
             <Form path="/addEmployee" objID={cabinet?.id} update={updateInfo} >
-                <RenderInputs inputs={formAddEmployee}/>
+                {/* <RenderInputs inputs={formAddEmployee}/> */}
             </Form>
         </HeaderPanel>
     )

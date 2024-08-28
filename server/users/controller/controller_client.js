@@ -1,4 +1,4 @@
-const { getServices, saveCabinet, getCabinetByUserID, getCabinetByID, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull, addWorkingDay, updateWorkingDay, getWorkingDays } = require("../model/model_client");
+const { getServices, saveCabinet, getCabinetByUserID, getCabinetByID, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull, addWorkingDay, updateWorkingDay, getWorkingDays, getEmployeeServices } = require("../model/model_client");
 
 
 
@@ -149,6 +149,27 @@ async function getEmployeeById(id) {
     }
 }
 
+async function handleEmployeeServices(id) {
+    try {
+        const services_provided = [];
+        const services_not_provided = [];
+        const employee_info = await getEmployeeById(id);
+        const all_services = await getServicesByCabinetId(employee_info.cabinet_id);
+        const employee_services = employee_info.employee_services?.split(',').map(Number) || [];
+        for (const service of all_services) {
+            if (employee_services.includes(service.id_base_service)) {
+                services_provided.push(service);
+            } else {
+                services_not_provided.push(service);
+            }
+        }
+        return { includes: services_provided, not_includes: services_not_provided };
+
+    } catch(err) {
+        return {message: err.message};
+    }
+}
+
 async function updateEmployeeById(data) {
     try {
         const { hours, ...rest } = data;
@@ -246,5 +267,6 @@ module.exports = {
     deleteServiceById,
     getServiceFullById,
     updateService,
-    getCabinets
+    getCabinets,
+    handleEmployeeServices
 }

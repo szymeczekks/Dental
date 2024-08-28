@@ -221,8 +221,15 @@ async function updateEmployee(dataToUpdate) {
         let columns = [], values = [];
         for (const key in dataToUpdate) {
             if (key === 'id') continue;
+
+            console.log(dataToUpdate[key]);
+            let value = dataToUpdate[key];
+            if (key == 'employee_services' && Array.isArray(value)) {
+                value = value.join();
+            }
+
             columns.push(key);
-            values.push(dataToUpdate[key]);
+            values.push(value);
         }
         const columnsSQL = `${columns.map((column, i) => {return `${column} = ?`})}`;
         const sql = `UPDATE employees SET ${columnsSQL} WHERE id = ?;`;

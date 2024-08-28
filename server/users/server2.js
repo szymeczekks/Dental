@@ -2,8 +2,9 @@ const express = require('express');
 const multer  = require('multer');
 const upload = require('./middlewares/MulterMiddleware');
 const {login, registerUser, getUserById, updateUserById} = require('./controller/controller')
-const { getAllServices, saveCabinetOne, getUsersCabinet, getCabinet, updateCabinetById, saveEmployee, addFile, getEmployees, getEmployeeById, updateEmployeeById, deleteEmployeeById, getServicesAvailable, addServices, getCabinetServices, deleteServiceById, getServiceFullById, updateService, getCabinets } = require('./controller/controller_client')
+const { getAllServices, saveCabinetOne, getUsersCabinet, getCabinet, updateCabinetById, saveEmployee, handleEmployeeServices, addFile, getEmployees, getEmployeeById, updateEmployeeById, deleteEmployeeById, getServicesAvailable, addServices, getCabinetServices, deleteServiceById, getServiceFullById, updateService, getCabinets } = require('./controller/controller_client')
 const {verifyJWT} = require('./middlewares/middleware');
+const { getEmployee } = require('./model/model_client');
 const app = express();
 
 app.use(express.json());
@@ -133,6 +134,15 @@ app.get('/get-employee/:eid', async (req,res) => {
     try {
         const employee = await getEmployeeById(req.params.eid);
         res.status(201).send(employee);
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
+})
+
+app.get('/get-employee-services/:eid', async (req,res) => {
+    try {
+        const services = await handleEmployeeServices(req.params.eid);
+        res.status(201).send(services);
     } catch (err) {
         res.status(500).send(err.message)
     }

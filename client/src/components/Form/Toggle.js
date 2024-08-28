@@ -4,7 +4,6 @@ export function Toggle({register, name, defaultChecked, id}) {
     const [checked, setChecked] = useState(false);
 
     useEffect(() => {
-        console.log(defaultChecked);
         defaultChecked && setChecked(true);
     },[]);
 
