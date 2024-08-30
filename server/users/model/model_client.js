@@ -203,6 +203,17 @@ async function getEmployees(id) {
     });
 }
 
+async function getEmployeeByService(service) {
+    const connection = await getConnection();
+
+    return new Promise( async (resolve, reject) => {
+        const sql = 'SELECT * FROM employees WHERE employee_services LIKE ?';
+        const [data] = await connection.execute( sql, [`%${service}%`] );
+        if (data.length <= 0) return reject({message: "Nie znaleziono pracownika"});
+        resolve(data);
+    });
+}
+
 async function getEmployee(id) {
     const connection = await getConnection();
 
@@ -383,6 +394,7 @@ module.exports = {
     getCabinetsFull,
     addWorkingDay,
     updateWorkingDay,
-    getWorkingDays
+    getWorkingDays,
+    getEmployeeByService
 }
 

@@ -12,8 +12,10 @@ export function Book() {
     const ref = useRef(0);
 
     useEffect(() => {
+        handle_days();
         axios.get(`/get-cabinet-services/${location.pathname.split('/')[2]}`)
         .then(response => {
+            console.log(response.data.data);
             setServices(response.data.data);
         })
         .catch(err => {
@@ -21,9 +23,33 @@ export function Book() {
         })
     }, []);
 
-    function handle_service_click(name) {
-        setServiceChecked(name);
-        ref.current.splide.go('>');
+    function handle_service_click(service_id) {
+        axios.get(`/get-employees-by-service/${service_id}`)
+        .then(response => {
+            console.log(response);
+            ref.current.splide.go('>');
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+
+    /* PAMIĘTAJ! ODIZOLOWAĆ FUNKCJE OBLICZAJĄCE ABY JE REUŻYWAĆ / PO OBLICZENIACH USTAWIC STATE DNI, KAŻDY DZIEN TO 1 OBIEKT I MA CZY JEST WOLNY CZY ZAJĘTY I WOLNE TERMINY */
+
+    function handle_days() {
+        const date = new Date();
+        const options = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        };
+
+        for (let i = 0; i < 3; i++) {
+            const followingDay = new Date(date.getTime() + (86400000 * i)); // + 1 day in ms
+            console.log(followingDay.getDay());
+            console.log(followingDay.toLocaleDateString(undefined, options));
+        }
     }
 
     console.log(location.pathname.split('/')[2]);
@@ -33,13 +59,14 @@ export function Book() {
             arrows: false,
             drag: false
         } }>
-            <SplideSlide>
+            <SplideSlide className="p-15">
                 <>
                 {
                     services ? 
                     services.map(service => {
                         return <ManageableListItem key={service.id} item={{ header: service.name, subheader: `${service.price} zł` }}>
-                            <button onClick={() => handle_service_click(service.name)}>Wybierz</button>
+                            <p>{service.duration} min.</p>
+                            <button onClick={() => handle_service_click(service.id_base_service)}>Wybierz</button>
                         </ManageableListItem>
                     }) : services === 0 ? <>Nie znaleziono usług</> : <>Loading...</>
                 }

@@ -1,4 +1,4 @@
-const { getServices, saveCabinet, getCabinetByUserID, getCabinetByID, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull, addWorkingDay, updateWorkingDay, getWorkingDays, getEmployeeServices } = require("../model/model_client");
+const { getServices, saveCabinet, getCabinetByUserID, getCabinetByID, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull, addWorkingDay, updateWorkingDay, getWorkingDays, getEmployeeServices, getEmployeeByService } = require("../model/model_client");
 
 
 
@@ -230,6 +230,20 @@ async function getServiceFullById(id) {
     }
 }
 
+
+async function getEmployeesByService(service) {
+    try {
+        const employees = await getEmployeeByService(service);
+        for (const employee of employees) {
+            let days = await getWorkingDays(employee.id);
+            employee.hours = formatDays(days);
+        }
+        return employees;
+    } catch(err) {
+        return { message: "Nie znaleziono usługi" }
+    }
+}
+
 async function updateService (data) {
     try {
         const updated = await updateServiceById (data);
@@ -268,5 +282,24 @@ module.exports = {
     getServiceFullById,
     updateService,
     getCabinets,
-    handleEmployeeServices
+    handleEmployeeServices,
+    getEmployeesByService
+}
+
+function formatDays(days) {
+    for (const key in days) {
+        const day = days[key];
+        let { hours, ...rest } = day;
+        hours = hours.split('-');
+        hours = {
+            from: hours[0],
+            to: hours[1]
+        }
+        days[key] = {
+            ...hours,
+            ...rest
+        }
+    }
+
+    return days;
 }

@@ -16,16 +16,14 @@ export function ManageableListItem({item, missing_items = [], children}) {
     }, []);
 
     return (
-        <div className="d-f jc-sb ai-c shadow-m p-10 br-10 m-b-10 p-r">
+        <div className="d-f jc-sb ai-c shadow-m comp_border p-10 br-10 m-b-10 p-r ">
             {missing && <span className="p-a warning_tag">!</span>}
             <div className="d-f fd-c gap-s">
                 <span className="fw-500">{header}</span>
                 {subheader && <span>{subheader}</span>}
             </div>
-            <div className="d-f gap-s">
+            <div className="d-f gap-s ai-c">
                 {children}
-                {/* <button><Link to={`${path}/${id}`}>Edytuj</Link></button>
-                <button onClick={delete_function}>Usuń</button> */}
             </div>
         </div>
     )

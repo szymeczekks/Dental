@@ -2,7 +2,7 @@ const express = require('express');
 const multer  = require('multer');
 const upload = require('./middlewares/MulterMiddleware');
 const {login, registerUser, getUserById, updateUserById} = require('./controller/controller')
-const { getAllServices, saveCabinetOne, getUsersCabinet, getCabinet, updateCabinetById, saveEmployee, handleEmployeeServices, addFile, getEmployees, getEmployeeById, updateEmployeeById, deleteEmployeeById, getServicesAvailable, addServices, getCabinetServices, deleteServiceById, getServiceFullById, updateService, getCabinets } = require('./controller/controller_client')
+const { getAllServices, saveCabinetOne, getUsersCabinet, getCabinet, updateCabinetById, saveEmployee, handleEmployeeServices, addFile, getEmployees, getEmployeeById, updateEmployeeById, deleteEmployeeById, getServicesAvailable, addServices, getCabinetServices, deleteServiceById, getServiceFullById, updateService, getCabinets, getEmployeesByService } = require('./controller/controller_client')
 const {verifyJWT} = require('./middlewares/middleware');
 const { getEmployee } = require('./model/model_client');
 const app = express();
@@ -145,6 +145,15 @@ app.get('/get-employee-services/:eid', async (req,res) => {
         res.status(201).send(services);
     } catch (err) {
         res.status(500).send(err.message)
+    }
+})
+
+app.get('/get-employees-by-service/:sid', async (req,res) => {
+    const employees = await getEmployeesByService(req.params.sid);
+    if (employees.message) {
+        res.status(500).send(employees.message);
+    } else {
+        res.status(201).send(employees);
     }
 })
 
