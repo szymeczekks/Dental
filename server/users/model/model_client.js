@@ -214,6 +214,21 @@ async function getEmployeeByService(service) {
     });
 }
 
+async function getBookedDays(id) {
+    const connection = await getConnection();
+
+    return new Promise( async (resolve, reject) => {
+        const current_time = new Date().toLocaleString().replace(',','').replaceAll('.', '-');
+        const sql = `SELECT date, booked_time FROM dates_booked WHERE employee_id = ? AND date >= '${current_time}'`;
+        const [data] = await connection.execute( sql, [id] );
+        data.forEach(booked => {
+            booked.date = new Date(booked.date).toLocaleString('pl-PL', {timeZone: 'Europe/Warsaw'});
+        });
+        // if (data.length <= 0) return reject({message: "Nie znaleziono terminów"});
+        resolve(data);
+    });
+}
+
 async function getEmployee(id) {
     const connection = await getConnection();
 
@@ -395,6 +410,7 @@ module.exports = {
     addWorkingDay,
     updateWorkingDay,
     getWorkingDays,
-    getEmployeeByService
+    getEmployeeByService,
+    getBookedDays
 }
 

@@ -1,4 +1,4 @@
-const { getServices, saveCabinet, getCabinetByUserID, getCabinetByID, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull, addWorkingDay, updateWorkingDay, getWorkingDays, getEmployeeServices, getEmployeeByService } = require("../model/model_client");
+const { getServices, saveCabinet, getCabinetByUserID, getCabinetByID, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull, addWorkingDay, updateWorkingDay, getWorkingDays, getEmployeeServices, getEmployeeByService, getBookedDays } = require("../model/model_client");
 
 
 
@@ -234,11 +234,16 @@ async function getServiceFullById(id) {
 async function getEmployeesByService(service) {
     try {
         const employees = await getEmployeeByService(service);
+        const employees_obj = {};
         for (const employee of employees) {
             let days = await getWorkingDays(employee.id);
+            let bookeds = await getBookedDays(employee.id);
             employee.hours = formatDays(days);
+            employee.booked = bookeds;
+            employees_obj[employee.id] = employee;
+            console.log(employees_obj[employee.id]);
         }
-        return employees;
+        return employees_obj;
     } catch(err) {
         return { message: "Nie znaleziono usługi" }
     }
