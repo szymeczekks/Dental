@@ -9,6 +9,7 @@ export function Book() {
     const location = useLocation();
     const [ services, setServices ] = useState(null);
     const [ days, setDays ] = useState(null);
+    const [ dates, setDates ] = useState(null);
     const [ daysLimit, setDaysLimit ] = useState(30);
     const ref = useRef(0);
     const refDays = useRef(0);
@@ -24,28 +25,40 @@ export function Book() {
         })
     }, []);
 
-    function count_availability(booked) {
-        
+    function draw_dates(dates) {
+        setDates(dates);
+    }
+
+    function Dates() {
+        console.log(dates);
+        return (
+            Object.keys(dates).map( key => {
+                console.log(key);
+                return (
+                    <SplideSlide>
+                        <div className="date d-f fd-c f-1 day h-100 gap-s comp_border txt-xs txt-c jc-s p-10">{key}</div>
+                    </SplideSlide>
+                )
+            })
+        );
     }
     
 
     function Day({day}) {
+        const availability_factor = day.availability?.availability_factor;
         let color = '';
-        count_availability(day.booked);
-        switch (day.booked?.length) {
-            case 3:
-                color = 'yellow'
-                break;
-            default:
-                break;
-        }
+        if ( availability_factor >= 98 ) { color = 'green' }
+        else if ( availability_factor >= 50 ) { color = 'yellow' }
+        else if ( availability_factor >= 25 ) { color = 'orange' }
+        else color = 'red';
+
         return (
-            <div className={`d-f fd-c f-1 day h-100 gap-s comp_border txt-c jc-s p-10 ${!day.is_available && "off"}`}>
+            <div onClick={() => draw_dates(day.availability.dates)} className={`d-f fd-c f-1 day h-100 gap-s comp_border txt-c jc-s p-10 ${!day.availability && "off"}`}>
                 <div>
                     <b className="fw-500">{day.name.split(',')[1]}</b><br></br>{day.name.split(',')[0]}
                 </div>
                 {
-                    day.is_working &&
+                    day.availability &&
                     <div className="d-f fd-c ai-c gap-s txt-xs">
                         Dostępność: 
                         <span className={`status comp_border ${color}`}></span>
@@ -80,45 +93,110 @@ export function Book() {
 
     /* PAMIĘTAJ! ODIZOLOWAĆ FUNKCJE OBLICZAJĄCE ABY JE REUŻYWAĆ / PO OBLICZENIACH USTAWIC STATE DNI, KAŻDY DZIEN TO 1 OBIEKT I MA CZY JEST WOLNY CZY ZAJĘTY I WOLNE TERMINY */
 
-    function get_working_days(obj) {
-        const week = new Set();
-        for (const key in obj) {
-            const employee = obj[key];
-            for (const day of employee.hours) {
-                if ( day.status !== 0 ) week.add(day.day)
+    function hour_to_float(hour_string) {
+        const hour = hour_string.split(':');
+        hour[1] = (parseInt(hour[1]) / 60) * 100;
+        return parseFloat(hour.join('.'));
+    }
+
+    function float_to_hour(hour_float) {
+        const minutes = (((hour_float % 1).toFixed(2) * 100) / 75) * 15;
+        return `${hour_float < 10 ? '0' : ''}${Math.floor(hour_float)}:${minutes}`;
+    }
+
+    function handle_availability(weekday, date, working_days, booked_dates, current_date) {
+        if (!working_days[weekday]) return false;
+        const current_date_string = current_date.toLocaleString().split(', ');
+        const is_too_late = Object.keys(working_days[weekday]).at(-1) < hour_to_float(current_date_string[1]) && new Date(current_date_string[0]).getTime() === new Date(date).getTime();
+        if (is_too_late) return false;
+        if (!booked_dates[date]) return {
+            dates: {...working_days[weekday]},
+            availability_factor: 100
+        };
+        let booked_hours = {...working_days[weekday]};
+        for (const key in booked_dates[date]) {
+            const employee_booked_hours = booked_dates[date][key];
+            for (const hour of employee_booked_hours) {
+                const from = hour_to_float(hour.hour);
+                const number_of_quarters = hour.booked_time / 15;
+                for (let i = 0; i < number_of_quarters; i++) {
+                    booked_hours[from + (0.25 * i)][key].booked = true;
+                }
+
             }
         }
 
-        return week;
+        const available = Object.keys(booked_hours)
+            .filter( quarter => Object.values(booked_hours[quarter]).some( booked => booked.booked === false ))
+            .sort((a, b) => a - b)
+            .reduce( (dates, key) => ( dates[key] = booked_hours[key], dates), {} );
+
+        console.log(available);
+
+        const availability_factor = Math.floor(( Object.keys(available).length * 100 ) / Object.keys(booked_hours).length);
+
+        return {
+            dates: available,
+            availability_factor:availability_factor
+        };
     }
 
-    function is_date_available(obj, weekday, date) {
-
-    }
-
-    function getBookedDates(obj) {
-        const dates = {};
+    function handle_dates(obj) {
+        const booked_dates = {};
+        const week = {};
+        const quarters = {};
         for (const key in obj) {
             const employee = obj[key];
+
             for (const date of employee.booked) {
                 const date_arr = date.date.split(', ');
-                if (!dates[date_arr[0]]) dates[date_arr[0]] = [];
-                dates[date_arr[0]].push({
+                if (!booked_dates[date_arr[0]]) booked_dates[date_arr[0]] = {};
+                if (!booked_dates[date_arr[0]][key]) booked_dates[date_arr[0]][key] = [];
+
+                booked_dates[date_arr[0]][key].push({
                     hour: date_arr[1],
                     booked_time: date.booked_time 
                 });
             }
+
+            for (const day of employee.hours) {
+                if (day.status === 0) continue;
+                if (!week[day.day]) week[day.day] = [];
+
+                const from = hour_to_float(day.from);
+                const to = hour_to_float(day.to);
+                const difference = to - from;
+                const number_of_quarters = difference / 0.25;
+
+                for (let i = 0; i < number_of_quarters; i++) {
+                    if (!quarters[from + (0.25 * i)]) quarters[from + (0.25 * i)] = {};
+                    quarters[from + (0.25 * i)][key] = { booked: false };
+                }
+
+                week[day.day] = quarters;
+            }
         }
-        return dates;
+
+        return {
+            booked_dates: booked_dates,
+            working_days: week
+        }
     }
 
-    function get_dates_data(obj) {
-
+    function handle_day(i, date, options, booked_dates, working_days, obj) {
+        const day = new Date(date.getTime() + (86400000 * i)); // + 1 day in ms
+        const weekday = day.getDay() === 0 ? 6 : day.getDay() - 1; 
+        const name = day.toLocaleDateString(undefined, options);
+        const availability = handle_availability( weekday, name.split(', ')[1], working_days, booked_dates, date );
+        return {
+            weekday: weekday,
+            availability: availability,
+            name: name
+        };
     }
-    
 
     function handle_days(obj) {
-        const date = new Date();
+        const date = new Date("2024-09-10T12:24:00");
         const days_arr = [];
         const options = {
             weekday: 'long',
@@ -127,25 +205,10 @@ export function Book() {
             day: 'numeric',
         };
 
-        const days_data = get_dates_data(obj);
-
-        const working_days = get_working_days(obj);
-        const booked_dates = getBookedDates(obj);
-
-        console.log(working_days);
-        console.log(booked_dates);
+        const dates = handle_dates(obj);
 
         for (let i = 0; i < daysLimit; i++) {
-            const day = new Date(date.getTime() + (86400000 * i)); // + 1 day in ms
-            const weekday = day.getDay() === 0 ? 6 : day.getDay() - 1; 
-            const name = day.toLocaleDateString(undefined, options);
-            const availability = is_date_available(obj, weekday, day);
-            days_arr.push({
-                weekday: weekday,
-                is_available: availability,
-                name: name,
-                booked: booked_dates[name.split(', ')[1]],
-            });
+            days_arr.push(handle_day(i, date, options, dates.booked_dates, dates.working_days, obj));
         }
 
         setDays(days_arr);
@@ -178,6 +241,15 @@ export function Book() {
                     gap: '10px'
                 } }>
                     {days && <Days/>}
+                </Splide>
+                <Splide options={ {
+                    perPage: 12,
+                    pagination: false,
+                    arrows: false,
+                    rewind: false,
+                    gap: '10px'
+                } }>
+                    {dates && <Dates/>}
                 </Splide>
             </SplideSlide>
         </Splide>
