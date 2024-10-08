@@ -1,4 +1,4 @@
-const { getServices, saveCabinet, getCabinetByUserID, getCabinetByID, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull, addWorkingDay, updateWorkingDay, getWorkingDays, getEmployeeServices, getEmployeeByService, getBookedDays, saveReservation, getReservationsById, getAllReservations } = require("../model/model_client");
+const { getServices, saveCabinet, getCabinetByUserID, getCabinetByID, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull, addWorkingDay, updateWorkingDay, getWorkingDays, getEmployeeServices, getEmployeeByService, getBookedDays, saveReservation, getReservationsById, getAllReservations, saveOpinion } = require("../model/model_client");
 
 
 
@@ -295,6 +295,16 @@ async function getReservations( target, id ) {
 }
 
 
+async function addOpinion( data ) {
+    try {
+        const opinion = await saveOpinion( data );
+        return opinion;
+    } catch (err) {
+        throw err;
+    }
+}
+
+
 module.exports = {
     getAllServices,
     saveCabinetOne,
@@ -317,7 +327,8 @@ module.exports = {
     handleEmployeeServices,
     getEmployeesByService,
     addReservation,
-    getReservations
+    getReservations,
+    addOpinion
 }
 
 function formatDays(days) {

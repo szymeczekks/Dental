@@ -239,3 +239,23 @@ export const formReservation = [
         type: "hidden",
     }
 ]
+
+export const formOpinion = [
+    {
+        id: "content",
+        placeholder: "Treść opinii...",
+        type: "textarea",
+        label: "Opis",
+        config: {
+            required: "Napisz coś o gabinecie"
+        }
+    },
+    {
+        id: "user_id",
+        type: "hidden",
+    },
+    {
+        id: "cabinet_id",
+        type: "hidden",
+    }
+]

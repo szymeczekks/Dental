@@ -403,7 +403,7 @@ async function saveReservation({ employee_id, cabinet_id, date, booked_time, ser
 async function getReservationsById( target, id ) {
     const connection = await getConnection();
     return new Promise ( async (resolve, reject) => {
-        const sql = `SELECT d.id AS booked_id, c.name AS cabinet_name, c.city AS cabinet_city, c.street AS cabinet_street, c.address AS cabinet_address, date, booked_time, service_name, d.name AS user_name, d.surname AS user_surname, e.name AS employee_name, e.id AS employee_id, e.email AS employee_email, e.phone AS employee_phone 
+        const sql = `SELECT d.user_id, d.id AS booked_id, c.id AS cabinet_id, c.name AS cabinet_name, c.city AS cabinet_city, c.street AS cabinet_street, c.address AS cabinet_address, date, booked_time, service_name, d.name AS user_name, d.surname AS user_surname, e.name AS employee_name, e.id AS employee_id, e.email AS employee_email, e.phone AS employee_phone 
         FROM dates_booked AS d 
         INNER JOIN employees AS e ON d.employee_id = e.id
         INNER JOIN cabinets AS c ON d.cabinet_id = c.id WHERE d.${target}_id = ?;`;
@@ -419,7 +419,7 @@ async function getReservationsById( target, id ) {
 async function getAllReservations() {
     const connection = await getConnection();
     return new Promise ( async (resolve, reject) => {
-        const sql = `SELECT d.id AS booked_id, c.name AS cabinet_name, c.city AS cabinet_city, c.street AS cabinet_street, c.address AS cabinet_address, date, booked_time, service_name, d.name AS user_name, d.surname AS user_surname, e.name AS employee_name, e.id AS employee_id, e.email AS employee_email, e.phone AS employee_phone 
+        const sql = `SELECT d.user_id, d.id AS booked_id, c.id AS cabinet_id, c.name AS cabinet_name, c.city AS cabinet_city, c.street AS cabinet_street, c.address AS cabinet_address, date, booked_time, service_name, d.name AS user_name, d.surname AS user_surname, e.name AS employee_name, e.id AS employee_id, e.email AS employee_email, e.phone AS employee_phone 
         FROM dates_booked AS d 
         INNER JOIN employees AS e ON d.employee_id = e.id
         INNER JOIN cabinets AS c ON d.cabinet_id = c.id`;
@@ -429,6 +429,19 @@ async function getAllReservations() {
             return resolve(data);
         } 
         return reject('Błąd pobierania wizyt');
+    });
+}
+
+async function saveOpinion({ user_id, cabinet_id, content }) {
+    const connection = await getConnection();
+    return new Promise ( async (resolve, reject) => {
+        const sql = `INSERT INTO opinions ( user_id, cabinet_id, content ) VALUES ( ?, ?, ? );`;
+        const [data] = await connection.execute(sql, [ user_id, cabinet_id, content ]);
+        
+        if (data.insertId) {
+            resolve({ message: 'Dodano prawidłowo opinię', data: {id: data.insertId}});
+        }
+        return reject({ message: 'Błąd podczas dodawania opinii'});
     });
 }
 
@@ -459,6 +472,7 @@ module.exports = {
     getBookedDays,
     saveReservation,
     getReservationsById,
-    getAllReservations
+    getAllReservations,
+    saveOpinion
 }
 

@@ -13,7 +13,6 @@ export function VisitsPlanned() {
     useEffect(() => {
         axios(`/get-reservations/cabinet/${cabinet?.id}`)
         .then( response => {
-            console.log(response.data);
             setVisits(response.data
                 .filter( visit => {return new Date(visit.date).getTime() > new Date().getTime()})
                 .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()));

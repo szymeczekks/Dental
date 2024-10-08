@@ -273,7 +273,8 @@ button a {
   border: 1px solid red;
 }
 
-input.input {
+input.input,
+textarea.input {
   position: relative;
   margin: 5px 0;
   border: 1px solid transparent;
@@ -283,6 +284,11 @@ input.input {
   border-radius: 10px;
 }
 
+textarea {
+  resize: vertical;
+}
+
+textarea.input::placeholder,
 input.input::placeholder {
   color: #c7c7c7;
 }
@@ -295,6 +301,7 @@ input[type="file"] {
   display: none;
 }
 
+textarea.input:focus-visible,
 input.input:focus-visible,
 select:focus-visible {
   outline: 3px solid rgb(146, 146, 146);

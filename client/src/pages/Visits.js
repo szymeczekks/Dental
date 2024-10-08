@@ -5,7 +5,7 @@ import axios from "axios";
 import { VisitsList } from "../components/VisitsList";
 
 export function Visits() {
-    const { authState: { userInfo, token, expiresAt }, setAuthState } = useContext(AuthContext);
+    const { authState: { userInfo } } = useContext(AuthContext);
     const header = "Wizyty";
     const subheader = "Tutaj znajdziesz informację o swoich wizytach";
     const [ visits, setVisits ] = useState(null);
@@ -23,7 +23,7 @@ export function Visits() {
 
     return (
         <HeaderPanel header={header} subheader={subheader}>
-            {visits && <VisitsList visits={visits} />}
+            {visits && <VisitsList visits={visits} target='user'/>}
         </HeaderPanel>
     )
 }

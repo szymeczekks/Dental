@@ -1,4 +1,6 @@
-export function VisitsList({ visits }) {
+import {Link} from 'react-router-dom';
+
+export function VisitsList({ visits, target }) {
 
     return (
         <div className="d-f fd-c gap-s">
@@ -42,8 +44,17 @@ export function VisitsList({ visits }) {
                     </div>
                     { 
                         new Date(visit.date).getTime() > new Date().getTime() ?
-                        <button>Odwołaj wizytę</button> :
-                        <p className="fw-500 accept"> Wizyta odbyła się </p>
+                        <div className="d-f fd-c gap-s ai-s">
+                            <button>Odwołaj wizytę</button>
+                        </div> :
+                        <div className="d-f fd-c gap-s ai-s">
+                            <p className="fw-500 accept"> Wizyta odbyła się </p>
+                            {target === 'user' && <button><Link to='/add-opinion' state={{
+                                service: visit.service_name,
+                                cabinet_id: visit.cabinet_id,
+                                user_id: visit.user_id
+                            }}>Dodaj opinię</Link></button>}
+                        </div>
                     }
                 </div>
             )}

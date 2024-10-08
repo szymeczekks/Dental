@@ -28,6 +28,7 @@ import TopNavBar from './components/topNavBar/TopNavBar';
 import { BrowserRouter as Router, Route, Routes, Link, BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AddOpinion } from './pages/AddOpinion/AddOpinion';
 
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
           <div className='content container shadow-m'>
             <Routes>
               <Route path="/" element={<Home />}></Route>
+              <Route path="add-opinion" element={<AddOpinion />}></Route>
               <Route path="user" element={<User />}>
                 <Route index element={<Account/>} />
                 <Route path="account" element={<Account/>} />

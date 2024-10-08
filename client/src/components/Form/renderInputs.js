@@ -5,6 +5,7 @@ import { Checkbox } from "./Checkbox";
 import { Toggle } from "./Toggle";
 import { Select } from "./Select";
 import { WorkingHours } from "./WorkingHours";
+import { Textarea } from "./Textarea";
 
 const inputMap = {
     'select-multiple': SelectMultiple,
@@ -12,6 +13,7 @@ const inputMap = {
     'select': Select,
     'checkbox': Checkbox,
     'toggle': Toggle,
+    'textarea': Textarea,
     'text': Input,
     'hidden': Input,
     'email': Input,
