@@ -1,4 +1,4 @@
-const { getServices, saveCabinet, getCabinetByUserID, getCabinetByID, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull, addWorkingDay, updateWorkingDay, getWorkingDays, getEmployeeServices, getEmployeeByService, getBookedDays } = require("../model/model_client");
+const { getServices, saveCabinet, getCabinetByUserID, getCabinetByID, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull, addWorkingDay, updateWorkingDay, getWorkingDays, getEmployeeServices, getEmployeeByService, getBookedDays, saveReservation, getReservationsById, getAllReservations } = require("../model/model_client");
 
 
 
@@ -267,6 +267,33 @@ async function getCabinets() {
     }
 }
 
+async function addReservation( data ) {
+    try {
+        const [day, month, year] = data.day.split('.');
+        const reserved = await saveReservation({ ...data, date: `${year}-${month}-${day} ${data.hour}` });
+        return reserved;
+    } catch (err) {
+        throw err;
+    }
+}
+
+async function getReservations( target, id ) {
+    try {
+        let reservations = null;
+        switch (target) {
+            case 'all' :
+                reservations = await getAllReservations();
+                break;
+            default:
+                reservations = await getReservationsById( target, id );
+        }
+        console.log(reservations);
+        return reservations;
+    } catch (err) {
+        throw err;
+    }
+}
+
 
 module.exports = {
     getAllServices,
@@ -288,7 +315,9 @@ module.exports = {
     updateService,
     getCabinets,
     handleEmployeeServices,
-    getEmployeesByService
+    getEmployeesByService,
+    addReservation,
+    getReservations
 }
 
 function formatDays(days) {

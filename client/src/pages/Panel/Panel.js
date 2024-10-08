@@ -32,7 +32,7 @@ function Panel() {
             <ListElement name="Informacje" path="informations" />
             <ListElement name="Dostępności" path="accessibility" />
             <ListElement name="Opinie" path="opinions" />
-            <ListElement name="Wizyty" dropdown={[{name: "Wizyty zaplanowane", path: "visits-planned"}, {name: "Wizyty do akceptacji", path: "visits-to-accept"}, {name: "Historia wizyt", path: "history-of-visits"}]} />
+            <ListElement name="Wizyty" dropdown={[{name: "Wizyty zaplanowane", path: "visits-planned"}, {name: "Historia wizyt", path: "history-of-visits"}]} />
         </SidePanel>;
     const Right = () => <Outlet/>
 

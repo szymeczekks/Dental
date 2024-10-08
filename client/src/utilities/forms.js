@@ -188,3 +188,54 @@ export const formUpdateService = [
         }
     }
 ]
+
+export const formReservation = [
+    [
+        {
+            id: "name",
+            placeholder: "John",
+            type: "text",
+            label: "Imię",
+            config: {
+                required: "Podaj imię"
+            }
+        },
+        {
+            id: "surname",
+            placeholder: "Doe",
+            type: "text",
+            label: "Nazwisko",
+            config: {
+                required: "Podaj nazwisko"
+            }
+        }
+    ],
+    {
+        id: "service_name",
+        type: "hidden",
+    },
+    {
+        id: "booked_time",
+        type: "hidden",
+    },
+    {
+        id: "day",
+        type: "hidden",
+    },
+    {
+        id: "hour",
+        type: "hidden",
+    },
+    {
+        id: "employee_id",
+        type: "hidden",
+    },
+    {
+        id: "user_id",
+        type: "hidden",
+    },
+    {
+        id: "cabinet_id",
+        type: "hidden",
+    }
+]

@@ -3,12 +3,92 @@
   flex-wrap: wrap;
 }
 
-.calendar .off {
-  background-color: #bebebe;
+div.splide {
+  padding: 0;
+  padding-bottom: 20px;
+}
+
+.fake-image-title {
+  background: linear-gradient( transparent 0%, #ffffff 20%);
+  top: 100%;
+  transition: all .2s ease-in-out;
+  height: 30px;
+}
+
+.fake-image {
+  height: 100%;
+  background: linear-gradient(45deg, #717171, transparent);
+  aspect-ratio: 1 / 1;
+  min-width: 120px;
+  overflow: hidden;
+}
+
+.fake-image:hover .fake-image-title {
+  top: calc(100% - 30px);
+}
+
+.step {
+  pointer-events: none;
+  background-color: #d4d4d4;
+  transition: all .1s ease-in-out;
+}
+
+
+.step.seen {
+  pointer-events: all;
+  cursor: pointer;
+  background-color: #fff;
+}
+
+.reservation_done .step {
+  pointer-events: none;
+}
+
+.step:hover, 
+.step.active {
+  background-color: #000000;
+  color: #fff;
+}
+
+.step_number{
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.step.active .step_number {
+  background-color: #fff;
+  color: #000;
+}
+
+.calendar .day {
+  transition: all .2s ease-in-out;
+}
+
+.calendar .off,
+.calendar .day:hover  {
+  background-color: #d4d4d4;
 }
 
 .calendar .day:not(.off) {
   cursor: pointer;
+}
+
+.date,
+.employee {
+  cursor: pointer;
+  transition: all .2s ease-in-out;
+}
+
+.date:hover,
+.employee:hover {
+  background-color: #d4d4d4;
 }
 
 .status {
@@ -19,6 +99,14 @@
 
 .status.yellow {
   background: rgb(255, 238, 6);
+}
+
+.status.orange {
+  background: rgb(241, 147, 38);
+}
+
+.status.red {
+  background: rgb(230, 29, 2);
 }
 
 
@@ -197,6 +285,10 @@ input.input {
 
 input.input::placeholder {
   color: #c7c7c7;
+}
+
+div:has(> input[type="hidden"]) {
+  margin-top: -10px;
 }
 
 input[type="file"] {
@@ -480,6 +572,10 @@ li {
 
 .p-10 {
   padding: 10px;
+}
+
+.p-5 {
+  padding: 5px;
 }
 
 .p-a {

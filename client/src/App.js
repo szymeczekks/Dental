@@ -83,7 +83,7 @@ function App() {
                   <Route path="accessibility" element={<Accessibility/>} />
                   <Route path="opinions" element={<Opinions/>} />
                   <Route path="visits-planned" element={<VisitsPlanned/>} />
-                  <Route path="visits-to-accept" element={<VisitsToAccept/>} />
+                  {/* <Route path="visits-to-accept" element={<VisitsToAccept/>} /> */}
                   <Route path="history-of-visits" element={<HistoryOfVisits/>} />
                 </Route>
               </Routes>

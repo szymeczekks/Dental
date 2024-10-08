@@ -13,6 +13,7 @@ const inputMap = {
     'checkbox': Checkbox,
     'toggle': Toggle,
     'text': Input,
+    'hidden': Input,
     'email': Input,
     'password': Input,
     'number': Input,

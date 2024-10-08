@@ -1,5 +1,17 @@
 import axios from 'axios';
 
+export function hour_to_float(hour_string) {
+    const hour = hour_string.split(':');
+    hour[1] = (parseInt(hour[1]) / 60) * 100;
+    return parseFloat(hour.join('.'));
+}
+
+export function float_to_hour(hour_float) {
+    const temp = parseFloat(hour_float);
+    const minutes = ((temp % 1) * 100 / 100) * 60;
+    return `${temp < 10 ? '0' : ''}${Math.floor(temp)}:${minutes < 10 ? '0' : ''}${minutes}`;
+}
+
 export const prepareData =  (data, id) => {
     return {...data, id: id};
 };

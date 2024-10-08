@@ -387,6 +387,51 @@ async function getWorkingDays(employee_id) {
     });
 }
 
+async function saveReservation({ employee_id, cabinet_id, date, booked_time, service_name, user_id, name, surname }) {
+    const connection = await getConnection();
+    return new Promise ( async (resolve, reject) => {
+        const sql = `INSERT INTO dates_booked (employee_id, cabinet_id, date, booked_time, service_name, user_id, name, surname) VALUES ( ?, ?, ?, ?, ?, ?, ?, ? );`;
+        const [data] = await connection.execute(sql, [employee_id, cabinet_id, date, booked_time, service_name, user_id, name, surname]);
+
+        if (data.insertId) {
+            resolve({ message: 'Dodano prawidłowo rezerwację', data: {id: data.insertId}});
+        }
+        return reject({ message: 'Błąd podczas dodawania rezerwacji'});
+    });
+}
+
+async function getReservationsById( target, id ) {
+    const connection = await getConnection();
+    return new Promise ( async (resolve, reject) => {
+        const sql = `SELECT d.id AS booked_id, c.name AS cabinet_name, c.city AS cabinet_city, c.street AS cabinet_street, c.address AS cabinet_address, date, booked_time, service_name, d.name AS user_name, d.surname AS user_surname, e.name AS employee_name, e.id AS employee_id, e.email AS employee_email, e.phone AS employee_phone 
+        FROM dates_booked AS d 
+        INNER JOIN employees AS e ON d.employee_id = e.id
+        INNER JOIN cabinets AS c ON d.cabinet_id = c.id WHERE d.${target}_id = ?;`;
+        const [data] = await connection.execute(sql, [id]);
+
+        if (data.length > 0) {
+            return resolve(data);
+        } 
+        return reject('Nie masz jeszcze żadnych wizyt :)');
+    });
+}
+
+async function getAllReservations() {
+    const connection = await getConnection();
+    return new Promise ( async (resolve, reject) => {
+        const sql = `SELECT d.id AS booked_id, c.name AS cabinet_name, c.city AS cabinet_city, c.street AS cabinet_street, c.address AS cabinet_address, date, booked_time, service_name, d.name AS user_name, d.surname AS user_surname, e.name AS employee_name, e.id AS employee_id, e.email AS employee_email, e.phone AS employee_phone 
+        FROM dates_booked AS d 
+        INNER JOIN employees AS e ON d.employee_id = e.id
+        INNER JOIN cabinets AS c ON d.cabinet_id = c.id`;
+        const [data] = await connection.execute(sql);
+
+        if (data.length > 0) {
+            return resolve(data);
+        } 
+        return reject('Błąd pobierania wizyt');
+    });
+}
+
 module.exports = {
     getServices,
     saveCabinet,
@@ -411,6 +456,9 @@ module.exports = {
     updateWorkingDay,
     getWorkingDays,
     getEmployeeByService,
-    getBookedDays
+    getBookedDays,
+    saveReservation,
+    getReservationsById,
+    getAllReservations
 }
 

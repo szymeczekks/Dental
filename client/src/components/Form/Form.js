@@ -15,7 +15,7 @@ export function Form({values, children, path, objID, update}) {
     }, [values]);
 
     async function onSubmit(data) {
-        console.log(data);
+        // console.log(data);
         try {
             const response = await postRequest(path, data, objID);
             notify(response.message);
