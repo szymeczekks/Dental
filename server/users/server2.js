@@ -2,7 +2,7 @@ const express = require('express');
 const multer  = require('multer');
 const upload = require('./middlewares/MulterMiddleware');
 const {login, registerUser, getUserById, updateUserById} = require('./controller/controller')
-const { getAllServices, saveCabinetOne, getUsersCabinet, getCabinet, updateCabinetById, saveEmployee, handleEmployeeServices, addFile, getEmployees, getEmployeeById, updateEmployeeById, deleteEmployeeById, getServicesAvailable, addServices, getCabinetServices, deleteServiceById, getServiceFullById, updateService, getCabinets, getEmployeesByService, addReservation, getReservations, addOpinion } = require('./controller/controller_client')
+const { getAllServices, saveCabinetOne, getUsersCabinet, getCabinet, updateCabinetById, saveEmployee, handleEmployeeServices, addFile, getEmployees, getEmployeeById, updateEmployeeById, deleteEmployeeById, getServicesAvailable, addServices, getCabinetServices, deleteServiceById, getServiceFullById, updateService, getCabinets, getEmployeesByService, addReservation, getReservations, addOpinion, getOpinions, updateOpinionById } = require('./controller/controller_client')
 const {verifyJWT} = require('./middlewares/middleware');
 const { getEmployee } = require('./model/model_client');
 const app = express();
@@ -208,6 +208,25 @@ app.post('/add-opinion', async (req,res) => {
     const opinion = await addOpinion( req.body );
 
     if ( opinion.data ) {
+        res.status(201).send( opinion );
+    } else {
+        res.status(500).send( opinion );
+    }
+})
+
+app.get('/get-opinions/:cid', async (req,res) => {
+    try {
+        const opinions = await getOpinions(req.params.cid);
+        res.status(201).send(opinions);
+    } catch (err) {
+        res.status(500).send( err )
+    }
+})
+
+app.post('/update-opinion', async (req,res) => {
+    const opinion = await updateOpinionById( req.body );
+
+    if ( opinion.isUpdated ) {
         res.status(201).send( opinion );
     } else {
         res.status(500).send( opinion );

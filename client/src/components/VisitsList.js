@@ -49,11 +49,11 @@ export function VisitsList({ visits, target }) {
                         </div> :
                         <div className="d-f fd-c gap-s ai-s">
                             <p className="fw-500 accept"> Wizyta odbyła się </p>
-                            {target === 'user' && <button><Link to='/add-opinion' state={{
+                            {/* {target === 'user' && <button><Link to='/add-opinion' state={{
                                 service: visit.service_name,
                                 cabinet_id: visit.cabinet_id,
                                 user_id: visit.user_id
-                            }}>Dodaj opinię</Link></button>}
+                            }}>Dodaj opinię</Link></button>} */}
                         </div>
                     }
                 </div>

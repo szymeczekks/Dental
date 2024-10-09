@@ -1,4 +1,4 @@
-const { getServices, saveCabinet, getCabinetByUserID, getCabinetByID, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull, addWorkingDay, updateWorkingDay, getWorkingDays, getEmployeeServices, getEmployeeByService, getBookedDays, saveReservation, getReservationsById, getAllReservations, saveOpinion } = require("../model/model_client");
+const { getServices, saveCabinet, getCabinetByUserID, getCabinetByID, getServicesByCabinetId, updateCabinet, addEmployee, addImage, getEmployees, getEmployee, updateEmployee, deleteEmployee, saveServices, updateRole, deleteService, getService, getServiceById, updateServiceById, getCabinetsFull, addWorkingDay, updateWorkingDay, getWorkingDays, getEmployeeServices, getEmployeeByService, getBookedDays, saveReservation, getReservationsById, getAllReservations, saveOpinion, selectOpinions, updateOpinion } = require("../model/model_client");
 
 
 
@@ -304,6 +304,25 @@ async function addOpinion( data ) {
     }
 }
 
+async function getOpinions( id ) {
+    try {
+        const opinions = await selectOpinions( id );
+        return opinions;
+    } catch (err) {
+        throw err;
+    }
+}
+
+
+async function updateOpinionById( data ) {
+    try {
+        const opinion = await updateOpinion( data );
+        return opinion;
+    } catch (err) {
+        throw err;
+    }
+}
+
 
 module.exports = {
     getAllServices,
@@ -328,7 +347,9 @@ module.exports = {
     getEmployeesByService,
     addReservation,
     getReservations,
-    addOpinion
+    addOpinion,
+    getOpinions,
+    updateOpinionById
 }
 
 function formatDays(days) {

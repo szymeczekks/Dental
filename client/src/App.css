@@ -202,6 +202,36 @@ h2 {
   font-size: 20px;
 }
 
+.button-loader {
+  border-radius: 4px;
+  overflow: hidden;
+  background: #262626;
+  display: none;
+}
+
+.button-loader > span {
+  width: 15px;
+  height: 15px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+}
+.button-loader > span span {
+  width: 15px;
+  top: 0px;
+  left: -10px;
+  rotate: 45deg;
+  height: 15px;
+  background-color: #262626;
+}
+
+.button-loader.is-loading {
+  display: flex;
+}
+
+.button-loader.is-loading > span {
+  animation: App-logo-spin infinite 1s linear;
+}
+
 button {
   border: none;
   cursor: pointer;
@@ -211,12 +241,23 @@ button {
   color: #fff;
   font-size: 15px;
   min-width: 150px;
+  border: 2px solid #262626;
 }
 
 button a {
   color: #fff;
   display: block;
 }
+
+button.white {
+  background: #fff;
+  color: #262626;
+}
+
+button.white a {
+  color: #262626;
+}
+
 
 .formFooter {
   margin-top: .5em;
@@ -641,6 +682,10 @@ li {
 
 /* flex */
 
+.d-ib {
+  display: inline-block;
+}
+
 .fw-w {
   flex-wrap: wrap;
 }
@@ -679,6 +724,10 @@ li {
 
 .ai-c {
   align-items: center;
+}
+
+.as-e {
+  align-self: end;
 }
 
 .gap-s {

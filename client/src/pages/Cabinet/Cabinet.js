@@ -35,7 +35,7 @@ export function Cabinet() {
             user_id: userInfo?.id
         }}>Napisz opinię</Link></button>
     </div>;
-    const Right = () => <LandingPage/>;
+    const Right = () => <LandingPage cabinetId={cabinetId} />;
 
 
     return (

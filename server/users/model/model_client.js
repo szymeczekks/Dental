@@ -445,6 +445,45 @@ async function saveOpinion({ user_id, cabinet_id, content }) {
     });
 }
 
+async function selectOpinions( id ) {
+    const connection = await getConnection();
+    return new Promise ( async (resolve, reject) => {
+        const sql = `SELECT o.content, u.name, u.surname, o.id, o.status  
+        FROM opinions AS o 
+        INNER JOIN users AS u ON o.user_id = u.id
+        WHERE o.cabinet_id = ?;`;
+        
+        const [data] = await connection.execute(sql, [id]);
+
+        if (data.length > 0) {
+            return resolve(data);
+        } 
+        return reject('Nie masz jeszcze żadnych opinii :)');
+    });
+}
+
+async function updateOpinion( dataToUpdate ) {
+    const connection = await getConnection();
+    return new Promise ( async (resolve, reject) => {
+        let columns = [], values = [];
+        for (const key in dataToUpdate) {
+            if (key === 'id') continue;
+            columns.push(key);
+            values.push(dataToUpdate[key]);
+        }
+
+        const columnsSQL = `${columns.map((column, i) => {return `${column} = ?`})}`;
+        const sql = `UPDATE opinions SET ${columnsSQL} WHERE id = ?;`;
+        const [data] = await connection.execute( sql, [...values, parseInt(dataToUpdate.id)]);
+
+        if (data.affectedRows === 0) {
+            reject({message:`Nie udało się zaktualizować danych`});
+        } else {
+            resolve({message: 'Zaktualizowano pomyślnie', isUpdated: true});
+        }
+    });
+}
+
 module.exports = {
     getServices,
     saveCabinet,
@@ -473,6 +512,8 @@ module.exports = {
     saveReservation,
     getReservationsById,
     getAllReservations,
-    saveOpinion
+    saveOpinion,
+    selectOpinions,
+    updateOpinion
 }
 
